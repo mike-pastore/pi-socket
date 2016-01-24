@@ -1,5 +1,5 @@
 {
-  "name": "raspberrypi",
+  "name": "pi-socket",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
-    "material-design-lite": "^1.0.6",
     "serialport": "^2.0.6",
     "socket.io": "^1.4.4"
   }
