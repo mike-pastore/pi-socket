@@ -17,17 +17,21 @@ app.use(express.static('public'));
 var brightness = 0; //static variable to hold the current brightness
 
 // log timestamp for server start
-var serverStartTime = moment().format('MMMM Do YYYY, h:mm:ss a');
+var serverStartTime = moment();
 
 io.sockets.on('connection', function (socket) { //gets called whenever a client connects
 
 	// log timestamp for server start
-	var clientStartTime = moment().format('MMMM Do YYYY, h:mm:ss a');
+	var clientStartTime = moment();
+
+    // log difference between Client and Server start times
+    var diffTime = serverStartTime.fromNow();
 
     socket.emit('led', {
     	value: brightness,
-    	serverStartTime: serverStartTime,
-        clientStartTime: clientStartTime
+    	serverStartTime: serverStartTime.format('MMMM Do YYYY, h:mm:ss a'),
+        clientStartTime: clientStartTime.format('MMMM Do YYYY, h:mm:ss a'),
+        diffTime: diffTime
     }); //send the new client the current brightness
     
     socket.on('led', function (data) { //makes the socket react to 'led' packets by calling this function

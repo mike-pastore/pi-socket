@@ -15,19 +15,19 @@
 	<br><br><h1><span id="outputText">50</span></h1><br>
 
 	<h2>Server started at:<br> <span id="serverTime" class="smaller">ServerTime</span></h2>
+	<p>(<span id="diffTime">DiffTime</span>)</p>
 	<h2>-----</h2>
 	<h2>You joined at: <br><span id="clientTime" class="smaller">ClientTime</span></h2>
 	
 	<script type="text/javascript">
 		var socket = io.connect();
 		
-		// $('#clientTime').html(moment.utc());
-		
 		socket.on('led', function (data) {
 			$('#inputSlider').val(data.value);
 			$('#outputText').html(data.value);
 			$('#serverTime').html(data.serverStartTime);
 			$('#clientTime').html(data.clientStartTime);
+			$('#diffTime').html(data.diffTime);
 		});
 		
 		function showValue(newValue)
@@ -36,7 +36,5 @@
 			socket.emit('led', { value: newValue });
 		}
 	</script>
-
-	<script src="js/moment.js"></script>
   </body>
 </html>
