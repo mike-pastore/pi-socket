@@ -5,7 +5,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);	//web socket server
 var moment = require('moment');
 
-var SerialPort = require("serialport").SerialPort;
+// var SerialPort = require("serialport").SerialPort;
 // var serialPort = new SerialPort("/../../sys/class/leds/led0", { baudrate: 115200 });
 
 server.listen(PORT, function () {
