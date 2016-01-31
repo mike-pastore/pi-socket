@@ -41,8 +41,7 @@ io.sockets.on('connection', function (socket) { //gets called whenever a client 
         // serialPort.write(buf); //transmits the buffer to the pi
 
         io.sockets.emit('led', {
-        	value: brightness,
-        	serverStartTime: serverStartTime
+        	value: brightness
         }); //sends the updated brightness to all connected clients
     });
 });
