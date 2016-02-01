@@ -16,9 +16,6 @@ var forecast = new Forecast({
   }
 });
 
-// var SerialPort = require("serialport").SerialPort;
-// var serialPort = new SerialPort("/../../sys/class/leds/led0", { baudrate: 115200 });
-
 server.listen(PORT, function () {
 	console.log('Server started!');
 });
@@ -35,6 +32,8 @@ var serverStartTime = moment();
 var weatherSummary,
     temperature,
     weatherIcon;
+
+var bgColor;
 
 //gets called whenever a client connects
 io.sockets.on('connection', function (socket) { 
@@ -62,20 +61,28 @@ io.sockets.on('connection', function (socket) {
         diffTime: diffTime,
         weatherSummary: weatherSummary,
         temperature: temperature,
-        weatherIcon: weatherIcon
+        weatherIcon: weatherIcon,
+        bgColor: bgColor
     }); 
     
     //makes the socket react to 'led' packets by calling this function
     socket.on('led', function (data) { 
         //updates brightness from the data object
         brightness = data.value;
-        // var buf = new Buffer(1); //creates a new 1-byte buffer
-        // buf.writeUInt8(brightness, 0); //writes the pwm value to the buffer
-        // serialPort.write(buf); //transmits the buffer to the pi
 
         //sends the updated brightness to all connected clients
         io.sockets.emit('led', {
         	value: brightness
         }); 
+    });
+
+    // changes clients' backgrounds to new color submit
+    socket.on('color', function (data) {
+        bgColor = data.color;
+
+        // send new color to all clients
+        io.sockets.emit('colorSet', {
+            color: data.color
+        });
     });
 });

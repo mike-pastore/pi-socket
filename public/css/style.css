@@ -1,7 +1,7 @@
 body {
 	text-align: center;
 	margin-top: 50px;
-	background: #50D0A0;
+	background: #0B6E4F;
 	padding: 10px;
 }
 
@@ -39,4 +39,8 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 	background-color: rgba(255,255,255,0.5);
 	padding: 20px 10px;
 	border-radius: 25px;
+}
+
+#sliderDiv {
+	margin-bottom: 24px;
 }

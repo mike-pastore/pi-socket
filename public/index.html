@@ -7,13 +7,34 @@
 	<script src="js/socket.io.js"></script>
 	<script src="js/jquery-2.2.0.min.js"></script>
 	<script src="js/skycons.js"></script>
+	<script src="js/rgb-to-hex"></script>
 	<link rel="stylesheet" href="css/kube.min.css">
 	<link rel="stylesheet" href="css/style.css">
+
+	<!-- MiniColors color picker-->
+    <script src="js/jquery.minicolors.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.minicolors.css">
   </head>
   <body>
-	<input type="range" id= "inputSlider" min="0" max="255" value="0" step="1" oninput="showValue(this.value)" />
-	
-	<br><br><h1><span id="outputText">0</span></h1><br>
+
+  	<div id="sliderDiv" class="infoDiv">
+		<input type="range" id= "inputSlider" min="0" max="255" value="0" step="1" oninput="showValue(this.value)" />
+		
+		<br><br><h1><span id="outputText">0</span></h1><br>
+	</div>
+
+	<blocks cols="2">
+		<div id="colorPickerDiv" class="infoDiv">
+			<!-- <input type="text" id="colorPickerInput" class="input-big"> -->
+			<input type="text" id="colorPickerInput" class="input-big">
+			<span>
+				<button class="btn" small id="submitButton">Submit</button>
+			</span>
+		</div>
+		<div id="colorDiv">
+			
+		</div>
+	</blocks>
 
 	<blocks cols="2">
 		<div class="infoDiv">
@@ -39,7 +60,43 @@
 
 		// icons for weather
 		var skycons = new Skycons();
+
+		// instantiate color picker
+		$('#colorPickerInput').minicolors({
+			animationSpeed: 50,
+	        animationEasing: 'swing',
+	        change: null,
+	        changeDelay: 0,
+	        control: 'hue',
+	        dataUris: true,
+	        defaultValue: '#000000',
+	        format: 'hex',
+	        hide: null,
+	        hideSpeed: 100,
+	        inline: false,
+	        keywords: '',
+	        letterCase: 'lowercase',
+	        opacity: false,
+	        position: 'bottom right',
+	        show: null,
+	        showSpeed: 100,
+	        theme: 'default'
+	        // swatches: ['#DB5461', '#686963', '#8AA29E', '#3D5467', '#F1EDEE']
+		});
+
+		// change bg color on submit
+		$('#submitButton').click(function() {
+			var hexInput = $('#colorPickerInput').val();
+
+			$('body').css('background', hexInput);
+
+			// emit new color to server (to change other clients' bg)
+			socket.emit('color', {
+				color: hexInput
+			});
+		});
 		
+		// listen for slider changes
 		socket.on('led', function (data) {
 			// set slider
 			$('#inputSlider').val(data.value);
@@ -55,10 +112,17 @@
 			$('#temperature').html(data.temperature);
 			skycons.add('iconCanvas', data.weatherIcon);
 			skycons.play();
+
+			// change bg color
+			$('body').css('background', data.bgColor);
+		});
+
+		// listen for bgcolor changes
+		socket.on('colorSet', function (data) {
+			$('body').css('background', data.color);
 		});
 		
-		function showValue(newValue)
-		{
+		function showValue(newValue) {
 			$('#outputText').html(newValue);
 			socket.emit('led', { value: newValue });
 		}
