@@ -12,7 +12,7 @@ var forecast = new Forecast({
   units: 'f', 
   cache: true,
   ttl: {
-    minutes: 5
+    minutes: 1
   }
 });
 

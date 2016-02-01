@@ -16,7 +16,7 @@
 	<br><br><h1><span id="outputText">0</span></h1><br>
 
 	<blocks cols="2">
-		<div>
+		<div class="infoDiv">
 			<h2>You joined at: <br><span id="clientTime" class="smaller">ClientTime</span></h2>
 			<br>
 			<h2>-----</h2>
@@ -24,7 +24,7 @@
 			<h2>Server started at:<br> <span id="serverTime" class="smaller">ServerTime</span></h2>
 			<p>(<span id="diffTime">DiffTime</span>)</p>
 		</div>
-		<div>
+		<div class="infoDiv">
 			<h2>Current Weather:</h2>
 			<canvas id="iconCanvas" width="128" height="128"></canvas>
 			<p><strong>Summary:</strong> <span id="weatherSummary">Summary</span></p>
@@ -51,10 +51,10 @@
 			$('#diffTime').html(data.diffTime);
 
 			// set weather
-			skycons.add('iconCanvas', data.weatherIcon);
-			skycons.play();
 			$('#weatherSummary').html(data.weatherSummary);
 			$('#temperature').html(data.temperature);
+			skycons.add('iconCanvas', data.weatherIcon);
+			skycons.play();
 		});
 		
 		function showValue(newValue)
