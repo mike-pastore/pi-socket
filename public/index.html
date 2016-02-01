@@ -6,28 +6,55 @@
 	
 	<script src="js/socket.io.js"></script>
 	<script src="js/jquery-2.2.0.min.js"></script>
+	<script src="js/skycons.js"></script>
 	<link rel="stylesheet" href="css/kube.min.css">
 	<link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-	<input type="range" id= "inputSlider" min="0" max="255" value="50" step="1" oninput="showValue(this.value)" />
+	<input type="range" id= "inputSlider" min="0" max="255" value="0" step="1" oninput="showValue(this.value)" />
 	
-	<br><br><h1><span id="outputText">50</span></h1><br>
+	<br><br><h1><span id="outputText">0</span></h1><br>
 
-	<h2>You joined at: <br><span id="clientTime" class="smaller">ClientTime</span></h2>
-	<h2>-----</h2>
-	<h2>Server started at:<br> <span id="serverTime" class="smaller">ServerTime</span></h2>
-	<p>(<span id="diffTime">DiffTime</span>)</p>
+	<blocks cols="2">
+		<div>
+			<h2>You joined at: <br><span id="clientTime" class="smaller">ClientTime</span></h2>
+			<br>
+			<h2>-----</h2>
+			<br>
+			<h2>Server started at:<br> <span id="serverTime" class="smaller">ServerTime</span></h2>
+			<p>(<span id="diffTime">DiffTime</span>)</p>
+		</div>
+		<div>
+			<h2>Current Weather:</h2>
+			<canvas id="iconCanvas" width="128" height="128"></canvas>
+			<p><strong>Summary:</strong> <span id="weatherSummary">Summary</span></p>
+			<p><strong>Temp:</strong> <span id="temperature">Temp</span></p>
+		</div>
+	</blocks>
+
+	
 	
 	<script type="text/javascript">
 		var socket = io.connect();
+
+		// icons for weather
+		var skycons = new Skycons();
 		
 		socket.on('led', function (data) {
+			// set slider
 			$('#inputSlider').val(data.value);
 			$('#outputText').html(data.value);
+
+			// set times
 			$('#serverTime').html(data.serverStartTime);
 			$('#clientTime').html(data.clientStartTime);
 			$('#diffTime').html(data.diffTime);
+
+			// set weather
+			skycons.add('iconCanvas', data.weatherIcon);
+			skycons.play();
+			$('#weatherSummary').html(data.weatherSummary);
+			$('#temperature').html(data.temperature);
 		});
 		
 		function showValue(newValue)
