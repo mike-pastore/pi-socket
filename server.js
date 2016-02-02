@@ -5,7 +5,36 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);	//web socket server
 var moment = require('moment');
 var Forecast = require('forecast');
- 
+var hex2rgb = require('hex2rgb');
+
+// serial port & jsonscraper for arduino
+var SerialPort = require("serialport").SerialPort;
+var arduino = new SerialPort("/dev/cu.usbmodem1411", {
+  baudrate: 9600
+});
+var scraper = require('json-scrape')();
+
+function updateArduino (hex) {
+  arduino.on('data', function (indata) {
+    //console.log(indata.toString());
+
+    // convert bgColor to rgb
+    rgbColor = hex2rgb(hex).rgb;
+    console.log('hex version = ' + hex);
+    console.log('rgb version = ' + rgbColor);
+    // scraper.write(indata.toString()); 
+    arduino.write('{"red": "' + rgbColor[0] + '"}');
+    arduino.write('{"green": "' + rgbColor[1] + '"}');
+    arduino.write('{"blue": "' + rgbColor[2] + '"}');
+  });
+}
+
+// scraper.on('data', function (cleandata) {
+//     console.log(cleandata);
+//     console.log('Blue = ' + cleandata.blue);
+// });
+
+// instantiate forecast, cache every 1 minute
 var forecast = new Forecast({
   service: 'forecast.io',
   key: '09bd150d2ba59dd9b1ea51469e932e8f',
@@ -33,7 +62,11 @@ var weatherSummary,
     temperature,
     weatherIcon;
 
+// instantiate bgColor from clients (hex)
 var bgColor;
+
+// instantiate rgb version of bgColor for arduino (rgb)
+var rgbColor = [];
 
 //gets called whenever a client connects
 io.sockets.on('connection', function (socket) { 
@@ -79,6 +112,9 @@ io.sockets.on('connection', function (socket) {
     // changes clients' backgrounds to new color submit
     socket.on('color', function (data) {
         bgColor = data.color;
+
+        // updates arduino light
+        updateArduino(bgColor);
 
         // send new color to all clients
         io.sockets.emit('colorSet', {
