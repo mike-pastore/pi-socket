@@ -7,27 +7,29 @@ var moment = require('moment');
 var Forecast = require('forecast');
 var hex2rgb = require('hex2rgb');
 
+// 2/10 REMOVE ARDUINO for time being
 // serial port & jsonscraper for arduino
-var SerialPort = require("serialport").SerialPort;
-var arduino = new SerialPort("/dev/cu.usbmodem1411", {
-  baudrate: 9600
-});
-var scraper = require('json-scrape')();
+// var SerialPort = require("serialport").SerialPort;
+// var arduino = new SerialPort("/dev/cu.usbmodem1411", {
+//   baudrate: 9600
+// });
+// var scraper = require('json-scrape')();
 
-function updateArduino (hex) {
-  arduino.on('data', function (indata) {
-    //console.log(indata.toString());
+// 2/10 REMOVE ARDUINO for time being
+// function updateArduino (hex) {
+//   arduino.on('data', function (indata) {
+//     //console.log(indata.toString());
 
-    // convert bgColor to rgb
-    rgbColor = hex2rgb(hex).rgb;
-    console.log('hex version = ' + hex);
-    console.log('rgb version = ' + rgbColor);
-    // scraper.write(indata.toString()); 
-    arduino.write('{"red": "' + rgbColor[0] + '"}');
-    arduino.write('{"green": "' + rgbColor[1] + '"}');
-    arduino.write('{"blue": "' + rgbColor[2] + '"}');
-  });
-}
+//     // convert bgColor to rgb
+//     rgbColor = hex2rgb(hex).rgb;
+//     console.log('hex version = ' + hex);
+//     console.log('rgb version = ' + rgbColor);
+//     // scraper.write(indata.toString()); 
+//     arduino.write('{"red": "' + rgbColor[0] + '"}');
+//     arduino.write('{"green": "' + rgbColor[1] + '"}');
+//     arduino.write('{"blue": "' + rgbColor[2] + '"}');
+//   });
+// }
 
 // scraper.on('data', function (cleandata) {
 //     console.log(cleandata);
@@ -114,7 +116,7 @@ io.sockets.on('connection', function (socket) {
         bgColor = data.color;
 
         // updates arduino light
-        updateArduino(bgColor);
+        // updateArduino(bgColor);
 
         // send new color to all clients
         io.sockets.emit('colorSet', {
