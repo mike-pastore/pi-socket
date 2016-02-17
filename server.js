@@ -70,6 +70,12 @@ var bgColor;
 // instantiate rgb version of bgColor for arduino (rgb)
 var rgbColor = [];
 
+// id counter for requests
+var requestCounter = 0;
+
+// array to store requests
+var requestArray = [];
+
 //gets called whenever a client connects
 io.sockets.on('connection', function (socket) { 
 
@@ -92,12 +98,12 @@ io.sockets.on('connection', function (socket) {
     socket.emit('led', {
     	value: brightness,
     	serverStartTime: serverStartTime.format('MMMM Do, h:mm:ss a'),
-        clientStartTime: clientStartTime.format('MMMM Do, h:mm:ss a'),
-        diffTime: diffTime,
-        weatherSummary: weatherSummary,
-        temperature: temperature,
-        weatherIcon: weatherIcon,
-        bgColor: bgColor
+      clientStartTime: clientStartTime.format('MMMM Do, h:mm:ss a'),
+      diffTime: diffTime,
+      weatherSummary: weatherSummary,
+      temperature: temperature,
+      weatherIcon: weatherIcon,
+      bgColor: bgColor
     }); 
     
     //makes the socket react to 'led' packets by calling this function
@@ -118,9 +124,19 @@ io.sockets.on('connection', function (socket) {
         // updates arduino light
         // updateArduino(bgColor);
 
+        // REQUEST INFORMATION for queue
+        // collects request entry
+        requestCounter++;
+        // request timestamp
+        var requestTimestamp = moment().format('h:mm:ss a');
+
+        // store in array for future new clients
+
         // send new color to all clients
         io.sockets.emit('colorSet', {
-            color: data.color
+            color: data.color,
+            counter: requestCounter,
+            timestamp: requestTimestamp
         });
     });
 });

@@ -78,6 +78,10 @@ socket.on('led', function (data) {
 // listen for bgcolor changes
 socket.on('colorSet', function (data) {
 	$('body').css('background', data.color);
+
+	// add request to queue
+	$('#requestBody').append('<tr class="bold" style="color: ' + data.color + '"><td>' + data.counter + '</td><td>' 
+		+ data.timestamp + '</td><td>' + data.color + '</td></tr>');
 });
 
 function showValue(newValue) {

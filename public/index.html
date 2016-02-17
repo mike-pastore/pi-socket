@@ -1,13 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-	<title>pi-socket</title>
+	<title>Glow Suit 3000</title>
 	<meta name="viewport" content="width=400px" />
 	
 	<script src="js/socket.io.js"></script>
 	<script src="js/jquery-2.2.0.min.js"></script>
 	<script src="js/skycons.js"></script>
-	<script src="js/rgb-to-hex"></script>
 	<link rel="stylesheet" href="css/kube.min.css">
 	<link rel="stylesheet" href="css/style.css">
 
@@ -17,10 +16,25 @@
   </head>
   <body>
 
-  	<div id="sliderDiv" class="infoDiv">
+  	<!-- <div id="sliderDiv" class="infoDiv">
 		<input type="range" id= "inputSlider" min="0" max="255" value="0" step="1" oninput="showValue(this.value)" />
 		
 		<br><br><h1><span id="outputText">0</span></h1><br>
+	</div> -->
+
+	<div class="infoDiv left">
+		<table>
+		    <thead>
+		        <tr>
+		            <th>ID</th>
+		            <th>Timestamp</th>
+		            <th>Color</th>
+		        </tr>
+		    </thead>
+		    <tbody id="requestBody">
+		        <!-- request queue populates here -->
+		    </tbody>
+		</table>
 	</div>
 
 	<blocks cols="2">
