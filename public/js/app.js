@@ -1,17 +1,3 @@
-// var socket = io();
-
-// socket.on('connect', function () {
-// 	socket.on('led', function (data) {
-// 			document.getElementById("inputSlider").value = data.value;
-// 			document.getElementById("outputText").innerHTML = data.value;
-// 		});
-// });
-
-// function showValue(newValue) {
-// 	newValue = $("#outputText").html();
-// 	socket.emit('led', { value: newValue });
-// }
-
 var socket = io.connect();
 
 // icons for weather
@@ -39,7 +25,6 @@ $('#colorPickerInput').minicolors({
 	show: null,
 	showSpeed: 100,
 	theme: 'default'
-		// swatches: ['#DB5461', '#686963', '#8AA29E', '#3D5467', '#F1EDEE']
 });
 
 // change bg color on submit
@@ -54,12 +39,8 @@ $('#submitButton').click(function () {
 	});
 });
 
-// listen for slider changes
+// listen for current server state
 socket.on('led', function (data) {
-	// set slider
-	$('#inputSlider').val(data.value);
-	$('#outputText').html(data.value);
-
 	// set times
 	$('#serverTime').html(data.serverStartTime);
 	$('#clientTime').html(data.clientStartTime);
@@ -80,7 +61,11 @@ socket.on('colorSet', function (data) {
 	$('body').css('background', data.color);
 
 	// add request to queue
-	$('#requestBody').append('<tr class="bold" style="color: ' + data.color + '"><td>' + data.counter + '</td><td>' 
+	$('#requestBody').append('<tr class="bold" style="background-color: rgba(' 
+		+ hexToRgb(data.color).r + ','
+		+ hexToRgb(data.color).g + ','
+		+ hexToRgb(data.color).b + ',0.60)"><td>' 
+		+ data.counter + '</td><td class="center">' 
 		+ data.timestamp + '</td><td>' + data.color + '</td></tr>');
 });
 
@@ -89,4 +74,14 @@ function showValue(newValue) {
 	socket.emit('led', {
 		value: newValue
 	});
+}
+
+// hexToRgb pulled from http://stackoverflow.com/a/5624139/4221054
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }

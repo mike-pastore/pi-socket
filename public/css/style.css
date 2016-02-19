@@ -5,36 +5,6 @@ body {
 	padding: 10px;
 }
 
-input[type=range]{
-	-webkit-appearance: none;
-	width: 80%;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-	height: 10px;
-	background: #ddd;
-	border: none;
-	border-radius: 3px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	border: none;
-	height: 32px;
-	width: 32px;
-	border-radius: 50%;
-	background: goldenrod;
-	margin-top: -12px;
-}
-
-input[type=range]:focus {
-	outline: none;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-	background: #ccc;
-}
-
 .infoDiv {
 	background-color: rgba(255,255,255,0.5);
 	padding: 20px 10px;
@@ -48,4 +18,27 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 #sliderDiv {
 	margin-bottom: 24px;
+}
+
+#requestDiv {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#requestDiv table tbody tr > td {
+	text-align: center;
+}
+
+#requestDiv table tbody tr > td:first-child {
+	padding-left: 10px;
+}
+
+#requestDiv table tbody tr > td:nth-child(3) {
+	padding-right: 10px;
+}
+
+#requestHead tr th {
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
 }
