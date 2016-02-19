@@ -131,6 +131,9 @@ io.sockets.on('connection', function (socket) {
         var requestTimestamp = moment().format('h:mm:ss a');
 
         // store in array for future new clients
+        for(i = 0; i < requestCounter; i++) {
+          
+        }
 
         // send new color to all clients
         io.sockets.emit('colorSet', {

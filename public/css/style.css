@@ -9,11 +9,16 @@ body {
 	background-color: rgba(255,255,255,0.5);
 	padding: 20px 10px;
 	border-radius: 25px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #colorDiv {
 	padding: 40px 20px;
 	border-radius: 25px;
+	/*border-style: solid;
+	border-width: 1px;
+	border-color: #a6a6a6;*/
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #sliderDiv {
