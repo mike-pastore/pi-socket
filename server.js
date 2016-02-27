@@ -103,7 +103,8 @@ io.sockets.on('connection', function (socket) {
       weatherSummary: weatherSummary,
       temperature: temperature,
       weatherIcon: weatherIcon,
-      bgColor: bgColor
+      bgColor: bgColor,
+      requestArray: requestArray
     }); 
     
     //makes the socket react to 'led' packets by calling this function
@@ -130,10 +131,12 @@ io.sockets.on('connection', function (socket) {
         // request timestamp
         var requestTimestamp = moment().format('h:mm:ss a');
 
-        // store in array for future new clients
-        for(i = 0; i < requestCounter; i++) {
-          
-        }
+        // push to array for future new clients
+        requestArray.push({
+          color: data.color,
+          counter: requestCounter,
+          timestamp: requestTimestamp
+        });
 
         // send new color to all clients
         io.sockets.emit('colorSet', {

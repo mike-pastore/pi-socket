@@ -54,6 +54,9 @@ socket.on('led', function (data) {
 
 	// change bg color
 	$('body').css('background', data.bgColor);
+
+	// build existing request array
+	buildRequestArray(data.requestArray);
 });
 
 // listen for bgcolor changes
@@ -64,17 +67,10 @@ socket.on('colorSet', function (data) {
 	$('#requestBody').append('<tr class="bold" style="background-color: rgba(' 
 		+ hexToRgb(data.color).r + ','
 		+ hexToRgb(data.color).g + ','
-		+ hexToRgb(data.color).b + ',0.60)"><td>' 
-		+ data.counter + '</td><td class="center">' 
+		+ hexToRgb(data.color).b + ',0.6)"><td>' 
+		+ data.counter + '</td><td>' 
 		+ data.timestamp + '</td><td>' + data.color + '</td></tr>');
 });
-
-function showValue(newValue) {
-	$('#outputText').html(newValue);
-	socket.emit('led', {
-		value: newValue
-	});
-}
 
 // hexToRgb pulled from http://stackoverflow.com/a/5624139/4221054
 function hexToRgb(hex) {
@@ -84,4 +80,16 @@ function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+}
+
+// build existing request array for new client
+function buildRequestArray(reqArray) {
+	for (i = 0; i < reqArray.length; i++) {
+		$('#requestBody').append('<tr class="bold" style="background-color: rgba(' 
+			+ hexToRgb(reqArray[i].color).r + ','
+			+ hexToRgb(reqArray[i].color).g + ','
+			+ hexToRgb(reqArray[i].color).b + ',0.6)"><td>' 
+			+ reqArray[i].counter + '</td><td>' 
+			+ reqArray[i].timestamp + '</td><td>' + reqArray[i].color + '</td></tr>');
+	}
 }
