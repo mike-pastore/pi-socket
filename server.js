@@ -7,6 +7,15 @@ var moment = require('moment');
 var Forecast = require('forecast');
 var hex2rgb = require('hex2rgb');
 
+// pi-gpio
+var gpio = require("pi-gpio");
+
+gpio.open(16, "output", function(err) {   // Open pin 16 for output 
+  gpio.write(16, 1, function() {      // Set pin 16 high (1) 
+    gpio.close(16);           // Close pin 16 
+  });
+});
+
 // 2/10 REMOVE ARDUINO for time being
 // serial port & jsonscraper for arduino
 // var SerialPort = require("serialport").SerialPort;
