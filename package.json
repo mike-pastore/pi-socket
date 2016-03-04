@@ -15,6 +15,7 @@
     "json-scrape": "^1.0.0",
     "moment": "^2.11.1",
     "pi-gpio": "0.0.8",
+    "python-runner": "^1.1.0",
     "serialport": "^2.0.6",
     "socket.io": "^1.4.4"
   }

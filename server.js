@@ -6,44 +6,38 @@ var io = require('socket.io').listen(server);	//web socket server
 var moment = require('moment');
 var Forecast = require('forecast');
 var hex2rgb = require('hex2rgb');
+var Python = require('python-runner');
 
-// pi-gpio
-var gpio = require("pi-gpio");
+// instantiate file write variables (for use in updateUnicorn())
+var fs = require('fs');
+var fsPath = __dirname + "/solid.py";
+var fsData;
 
-gpio.open(16, "output", function(err) {   // Open pin 16 for output 
-  gpio.write(16, 1, function() {      // Set pin 16 high (1) 
-    gpio.close(16);           // Close pin 16 
+function updateUnicorn (hex) {
+  // convert hex to rgb
+  rgbColor = hex2rgb(hex).rgb;
+
+  // write new solid.py file with updated rgb values
+  fsData = "import unicornhat\nimport time\nunicornhat.brightness(0.2)\nr=" 
+    + rgbColor[0] + "\ng=" 
+    + rgbColor[1] + "\nb=" 
+    + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(10)\n";
+
+  fs.writeFile(fsPath, fsData, function(error) {
+       if (error) {
+         console.error("write error:  " + error.message);
+       } else {
+         console.log("Successful Write to " + fsPath);
+       }
   });
-});
 
-// 2/10 REMOVE ARDUINO for time being
-// serial port & jsonscraper for arduino
-// var SerialPort = require("serialport").SerialPort;
-// var arduino = new SerialPort("/dev/cu.usbmodem1411", {
-//   baudrate: 9600
-// });
-// var scraper = require('json-scrape')();
-
-// 2/10 REMOVE ARDUINO for time being
-// function updateArduino (hex) {
-//   arduino.on('data', function (indata) {
-//     //console.log(indata.toString());
-
-//     // convert bgColor to rgb
-//     rgbColor = hex2rgb(hex).rgb;
-//     console.log('hex version = ' + hex);
-//     console.log('rgb version = ' + rgbColor);
-//     // scraper.write(indata.toString()); 
-//     arduino.write('{"red": "' + rgbColor[0] + '"}');
-//     arduino.write('{"green": "' + rgbColor[1] + '"}');
-//     arduino.write('{"blue": "' + rgbColor[2] + '"}');
-//   });
-// }
-
-// scraper.on('data', function (cleandata) {
-//     console.log(cleandata);
-//     console.log('Blue = ' + cleandata.blue);
-// });
+  Python.execScript(fsPath, {
+                  bin: "python3",
+                  args: [ "argument" ]
+  }).then(function(data){
+          console.log(data);
+  });
+}
 
 // instantiate forecast, cache every 1 minute
 var forecast = new Forecast({
@@ -76,7 +70,7 @@ var weatherSummary,
 // instantiate bgColor from clients (hex)
 var bgColor;
 
-// instantiate rgb version of bgColor for arduino (rgb)
+// instantiate rgb version of bgColor for unicorn (rgb)
 var rgbColor = [];
 
 // id counter for requests
@@ -131,8 +125,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('color', function (data) {
         bgColor = data.color;
 
-        // updates arduino light
-        // updateArduino(bgColor);
+        // updates unicorn hat light
+        updateUnicorn(bgColor);
 
         // REQUEST INFORMATION for queue
         // collects request entry

@@ -85,11 +85,13 @@ function hexToRgb(hex) {
 // build existing request array for new client
 function buildRequestArray(reqArray) {
 	for (i = 0; i < reqArray.length; i++) {
+		var data = reqArray[i];
+
 		$('#requestBody').append('<tr class="bold" style="background-color: rgba(' 
-			+ hexToRgb(reqArray[i].color).r + ','
-			+ hexToRgb(reqArray[i].color).g + ','
-			+ hexToRgb(reqArray[i].color).b + ',0.6)"><td>' 
-			+ reqArray[i].counter + '</td><td>' 
-			+ reqArray[i].timestamp + '</td><td>' + reqArray[i].color + '</td></tr>');
+			+ hexToRgb(data.color).r + ','
+			+ hexToRgb(data.color).g + ','
+			+ hexToRgb(data.color).b + ',0.6)"><td>' 
+			+ data.counter + '</td><td>' 
+			+ data.timestamp + '</td><td>' + reqArray[i].color + '</td></tr>');
 	}
 }
