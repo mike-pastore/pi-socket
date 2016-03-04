@@ -92,6 +92,6 @@ function buildRequestArray(reqArray) {
 			+ hexToRgb(data.color).g + ','
 			+ hexToRgb(data.color).b + ',0.6)"><td>' 
 			+ data.counter + '</td><td>' 
-			+ data.timestamp + '</td><td>' + reqArray[i].color + '</td></tr>');
+			+ data.timestamp + '</td><td>' + data.color + '</td></tr>');
 	}
 }

@@ -21,7 +21,7 @@ function updateUnicorn (hex) {
   fsData = "import unicornhat\nimport time\nunicornhat.brightness(0.2)\nr=" 
     + rgbColor[0] + "\ng=" 
     + rgbColor[1] + "\nb=" 
-    + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(10)\n";
+    + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(5)\n";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
