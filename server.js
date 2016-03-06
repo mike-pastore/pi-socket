@@ -34,7 +34,7 @@ function updateUnicorn (hex) {
   fsData ="import unicornhat as UH\nimport time\nr=" 
       + rgbColor[0] + "\ng=" 
       + rgbColor[1] + "\nb=" 
-      + rgbColor[2] + "\nsleepspeed=0.05\nfor y in range(8):\n\tif (y % 2) == 0:\n\t\tfor x in range(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\n\t\tbreak\n\telse:\n\t\tfor x in reversed(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\ntime.sleep(2)\n";
+      + rgbColor[2] + "\nsleepspeed=0.05\nfor y in range(8):\n\tif (y % 2) == 0:\n\t\tfor x in range(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\n\telse:\n\t\tfor x in reversed(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\ntime.sleep(2)\n";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
