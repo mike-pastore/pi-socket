@@ -10,7 +10,8 @@ var Python = require('python-runner');
 
 // instantiate file write variables (for use in updateUnicorn())
 var fs = require('fs');
-var fsPath = __dirname + "/solid.py";
+// var fsPath = __dirname + "/solid.py";
+var fsPath = __dirname + '/stripes.py';
 var fsData;
 
 function updateUnicorn (hex) {
@@ -18,10 +19,13 @@ function updateUnicorn (hex) {
   rgbColor = hex2rgb(hex).rgb;
 
   // write new solid.py file with updated rgb values
-  fsData = "import unicornhat\nimport time\nunicornhat.brightness(0.2)\nr=" 
-    + rgbColor[0] + "\ng=" 
-    + rgbColor[1] + "\nb=" 
-    + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(5)\n";
+  // fsData = "import unicornhat\nimport time\nunicornhat.brightness(0.2)\nr=" 
+  //   + rgbColor[0] + "\ng=" 
+  //   + rgbColor[1] + "\nb=" 
+  //   + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(5)\n";
+
+  // write new stripes.py with updated rgb values
+  fsData = "import unicornhat as UH\nimport time\nfor y in range(8):\n\tfor x in range(8):\n\t\tUH.set_pixel(x,y," + rgbColor[0] + "," + rgbColor[2] + "," + rgbColor[0] + ")\n\t\tUH.show()\n\t\ttime.sleep(0.05)\ntime.sleep(2)\n";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
@@ -32,7 +36,7 @@ function updateUnicorn (hex) {
   });
 
   Python.execScript(fsPath, {
-                  bin: "python3",
+                  // bin: "python3",
                   args: [ "argument" ]
   }).then(function(data){
           console.log(data);
