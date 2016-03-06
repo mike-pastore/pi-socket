@@ -2,3 +2,4 @@ node_modules/
 arduino/
 solid.py
 stripes.py
+worm.py

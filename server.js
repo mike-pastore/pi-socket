@@ -11,7 +11,7 @@ var Python = require('python-runner');
 // instantiate file write variables (for use in updateUnicorn())
 var fs = require('fs');
 // var fsPath = __dirname + "/solid.py";
-var fsPath = __dirname + '/stripes.py';
+var fsPath;
 var fsData;
 
 function updateUnicorn (hex) {
@@ -19,13 +19,22 @@ function updateUnicorn (hex) {
   rgbColor = hex2rgb(hex).rgb;
 
   // write new solid.py file with updated rgb values
+  // fsPath = __dirname + '/solid.py';
   // fsData = "import unicornhat\nimport time\nunicornhat.brightness(0.2)\nr=" 
   //   + rgbColor[0] + "\ng=" 
   //   + rgbColor[1] + "\nb=" 
   //   + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(5)\n";
 
   // write new stripes.py with updated rgb values
-  fsData = "import unicornhat as UH\nimport time\nfor y in range(8):\n\tfor x in range(8):\n\t\tUH.set_pixel(x,y," + rgbColor[0] + "," + rgbColor[1] + "," + rgbColor[2] + ")\n\t\tUH.show()\n\t\ttime.sleep(0.05)\ntime.sleep(2)\n";
+  // fsPath = __dirname + '/stripes.py';
+  // fsData = "import unicornhat as UH\nimport time\nfor y in range(8):\n\tfor x in range(8):\n\t\tUH.set_pixel(x,y," + rgbColor[0] + "," + rgbColor[1] + "," + rgbColor[2] + ")\n\t\tUH.show()\n\t\ttime.sleep(0.05)\ntime.sleep(2)\n";
+
+  // write new worm.py file with updated rgb values
+  fsPath = __dirname + '/worm.py';
+  fsData ="import unicornhat as UH\nimport time\nr=" 
+      + rgbColor[0] + "\ng=" 
+      + rgbColor[1] + "\nb=" 
+      + rgbColor[2] + "\nsleepspeed=0.05\nfor y in range(8):\n\tif y % 2 == 0:\n\t\tfor x in range(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\n\telse:\n\t\tfor x in reversed(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepseed)\ntime.sleep(2)\n";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
