@@ -25,7 +25,7 @@ function updateUnicorn (hex) {
   //   + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(5)\n";
 
   // write new stripes.py with updated rgb values
-  fsData = "import unicornhat as UH\nimport time\nfor y in range(8):\n\tfor x in range(8):\n\t\tUH.set_pixel(x,y," + rgbColor[0] + "," + rgbColor[2] + "," + rgbColor[0] + ")\n\t\tUH.show()\n\t\ttime.sleep(0.05)\ntime.sleep(2)\n";
+  fsData = "import unicornhat as UH\nimport time\nfor y in range(8):\n\tfor x in range(8):\n\t\tUH.set_pixel(x,y," + rgbColor[0] + "," + rgbColor[1] + "," + rgbColor[2] + ")\n\t\tUH.show()\n\t\ttime.sleep(0.05)\ntime.sleep(2)\n";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
