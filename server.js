@@ -34,7 +34,7 @@ function updateUnicorn (hex) {
   fsData ="import unicornhat as UH\nimport time\nimport math\nr=" 
       + rgbColor[0] + "\ng=" 
       + rgbColor[1] + "\nb=" 
-      + rgbColor[2] + "\nsleepspeed=0.05\n\nfor y in range(8):\n\tif (y % 2) == 0:\n\t\tfor x in range(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\n\telse:\n\t\tfor x in reversed(range(8)):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\nstartSleep = 2.5\nexpoSleep = startSleep\ncounter = 1\nwhile (expoSleep > 0.001):\n\ttime.sleep(expoSleep)\n\tUH.off()\n\ttime.sleep(0.05)\n\tfor x in range (0,8):\n\t\tfor y in range (0,8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\tUH.show()\n\texpoSleep = startSleep * (0.5**counter)\n\tcounter += 1\n";
+      + rgbColor[2] + "\nsleepspeed=0.05\n\nfor y in range(8):\n\tif (y % 2) == 0:\n\t\tfor x in range(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\n\telse:\n\t\tfor x in reversed(range(8)):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\nstartSleep = 2\nexpoSleep = startSleep\ncounter = 1\nwhile (expoSleep > 0.001):\n\ttime.sleep(expoSleep)\n\tUH.off()\n\ttime.sleep(sleepspeed)\n\tfor x in range (0,8):\n\t\tfor y in range (0,8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\tUH.show()\n\texpoSleep = startSleep * (0.5**counter)\n\tcounter += 1\n";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
