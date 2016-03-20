@@ -9,22 +9,16 @@ var hex2rgb = require('hex2rgb');
 var Python = require('python-runner');
 
 // instantiate file write variables (for use in updateUnicorn())
-// var fs = require('fs');
+var fs = require('fs');
 
 // // <----- START PYTHON SCRIPT, LISTEN TO SERIAL PORT ----->
-// var fsPath = __dirname + '/flora-neopixel-initiate.py';
-// var fsData = "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)";
+var fsPath;
+var fsData;
 
-// fs.writeFile(fsPath, fsData, function (error) {
-//   if (error) {
-//     console.error("write error:  " + error.message);
-//   } else {
-//     console.log("Successful Write to " + fsPath);
-//   }
-// });
+
 
 // Python.execScript(fsPath, {
-//   bin: "python2",
+//   bin: "python",
 //   args: ["argument"]
 // }).then(function (data) {
 //   console.log(data);
@@ -35,30 +29,45 @@ function updateUnicorn(hex) {
   // convert hex to rgb
   rgbColor = hex2rgb(hex).rgb;
 
-  // fsPath = __dirname + '/flora-neopixel.py';
-  // fsData = "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)\nr="
-  //     + rgbColor[0] + "\ng="
-  //     + rgbColor[1] + "\nb="
-  //     + rgbColor[2] + "\nser.write('r,g,b')";
+  fsPath = __dirname + '/flora-neopixel.py';
+  fsData = "import serial\nimport time\nser = serial.Serial('/dev/ttyACM1', 9600)\nser.write('" 
+      + rgbColor[0] + "," 
+      + rgbColor[1] + "," 
+      + rgbColor[2] + "')\ntime.sleep(1000)";
+
+  fs.writeFile(fsPath, fsData, function (error) {
+    if (error) {
+      console.error("write error:  " + error.message);
+    } else {
+      console.log("Successful Write to " + fsPath);
+    }
+  });
+
+  Python.execScript(fsPath, {
+    bin: "python",
+    args: ["argument"]
+  }).then(function (data) {
+    console.log(data);
+  });
 
   // Python.exec(
   //   "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)\nr=" + rgbColor[0] + "\ng=" + rgbColor[1] + "\nb=" + rgbColor[2] + "\nser.write('r,g,b')"
   // )
 
-  Python.exec(
-    [
-      "import serial",
-      "ser = serial.Serial('/dev/ttyACM1', 9600)",
-      "ser.write('rVal,gVal,bVal')"
-    ],
-    {
-      "rVal" : rgbColor[0],
-      "gVal" : rgbColor[1],
-      "bVal" : rgbColor[2]
-    }
-  ).then(function(data){
-    console.log(data);
-  });
+  // Python.exec(
+  //   [
+  //     "import serial",
+  //     "ser = serial.Serial('/dev/ttyACM1', 9600)",
+  //     "ser.write('rVal,gVal,bVal')"
+  //   ],
+  //   {
+  //     "rVal" : rgbColor[0],
+  //     "gVal" : rgbColor[1],
+  //     "bVal" : rgbColor[2]
+  //   }
+  // ).then(function(data){
+  //   console.log(data);
+  // });
 
 }
 
