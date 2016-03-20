@@ -24,6 +24,7 @@ fs.writeFile(fsPath, fsData, function (error) {
 });
 
 Python.execScript(fsPath, {
+  bin: "python2",
   args: ["argument"]
 }).then(function (data) {
   console.log(data);
