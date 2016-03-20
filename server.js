@@ -9,26 +9,26 @@ var hex2rgb = require('hex2rgb');
 var Python = require('python-runner');
 
 // instantiate file write variables (for use in updateUnicorn())
-var fs = require('fs');
+// var fs = require('fs');
 
-// <----- START PYTHON SCRIPT, LISTEN TO SERIAL PORT ----->
-var fsPath = __dirname + '/flora-neopixel-initiate.py';
-var fsData = "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)";
+// // <----- START PYTHON SCRIPT, LISTEN TO SERIAL PORT ----->
+// var fsPath = __dirname + '/flora-neopixel-initiate.py';
+// var fsData = "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)";
 
-fs.writeFile(fsPath, fsData, function (error) {
-  if (error) {
-    console.error("write error:  " + error.message);
-  } else {
-    console.log("Successful Write to " + fsPath);
-  }
-});
+// fs.writeFile(fsPath, fsData, function (error) {
+//   if (error) {
+//     console.error("write error:  " + error.message);
+//   } else {
+//     console.log("Successful Write to " + fsPath);
+//   }
+// });
 
-Python.execScript(fsPath, {
-  bin: "python2",
-  args: ["argument"]
-}).then(function (data) {
-  console.log(data);
-});
+// Python.execScript(fsPath, {
+//   bin: "python2",
+//   args: ["argument"]
+// }).then(function (data) {
+//   console.log(data);
+// });
 // <----- *** ----->
 
 function updateUnicorn(hex) {
@@ -41,10 +41,25 @@ function updateUnicorn(hex) {
   //     + rgbColor[1] + "\nb="
   //     + rgbColor[2] + "\nser.write('r,g,b')";
 
+  // Python.exec(
+  //   "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)\nr=" + rgbColor[0] + "\ng=" + rgbColor[1] + "\nb=" + rgbColor[2] + "\nser.write('r,g,b')"
+  // )
+
   Python.exec(
-    "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)\nr=" + rgbColor[0] + "\ng=" + rgbColor[1] + "\nb=" + rgbColor[2] + "\nser.write('r,g,b')"
-  )
-  .then(function(data){
+    [
+      "import serial",
+      "ser = serial.Serial('/dev/ttyACM1', 9600)",
+      "r = rVal",
+      "g = gVal",
+      "b = bVal",
+      "ser.write('r,g,b')"
+    ],
+    {
+      "rVal" = rgbColor[0],
+      "gVal" = rgbColor[1],
+      "bVal" = rgbColor[2]
+    }
+  ).then(function(data){
     console.log(data);
   });
 
