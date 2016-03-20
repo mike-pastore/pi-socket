@@ -55,9 +55,9 @@ function updateUnicorn(hex) {
       "ser.write('r,g,b')"
     ],
     {
-      "rVal" = rgbColor[0],
-      "gVal" = rgbColor[1],
-      "bVal" = rgbColor[2]
+      "rVal" : rgbColor[0],
+      "gVal" : rgbColor[1],
+      "bVal" : rgbColor[2]
     }
   ).then(function(data){
     console.log(data);
