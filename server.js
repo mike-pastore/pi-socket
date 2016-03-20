@@ -18,23 +18,11 @@ function updateUnicorn (hex) {
   // convert hex to rgb
   rgbColor = hex2rgb(hex).rgb;
 
-  // write new solid.py file with updated rgb values
-  // fsPath = __dirname + '/solid.py';
-  // fsData = "import unicornhat\nimport time\nunicornhat.brightness(0.2)\nr=" 
-  //   + rgbColor[0] + "\ng=" 
-  //   + rgbColor[1] + "\nb=" 
-  //   + rgbColor[2] + "\nfor x in range (0,8):\n\tfor y in range (0,8):\n\t\tunicornhat.set_pixel(x,y,r,g,b)\nunicornhat.show()\ntime.sleep(5)\n";
-
-  // write new stripes.py with updated rgb values
-  // fsPath = __dirname + '/stripes.py';
-  // fsData = "import unicornhat as UH\nimport time\nfor y in range(8):\n\tfor x in range(8):\n\t\tUH.set_pixel(x,y," + rgbColor[0] + "," + rgbColor[1] + "," + rgbColor[2] + ")\n\t\tUH.show()\n\t\ttime.sleep(0.05)\ntime.sleep(2)\n";
-
-  // write new worm.py file with updated rgb values
-  fsPath = __dirname + '/worm.py';
-  fsData ="import unicornhat as UH\nimport time\nimport math\nr=" 
-      + rgbColor[0] + "\ng=" 
-      + rgbColor[1] + "\nb=" 
-      + rgbColor[2] + "\nsleepspeed=0.05\n\nfor y in range(8):\n\tif (y % 2) == 0:\n\t\tfor x in range(8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\n\telse:\n\t\tfor x in reversed(range(8)):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\t\t\tUH.show()\n\t\t\ttime.sleep(sleepspeed)\nstartSleep = 2\nexpoSleep = startSleep\ncounter = 1\nwhile (expoSleep > 0.001):\n\ttime.sleep(expoSleep)\n\tUH.off()\n\ttime.sleep(sleepspeed)\n\tfor x in range (0,8):\n\t\tfor y in range (0,8):\n\t\t\tUH.set_pixel(x,y,r,g,b)\n\tUH.show()\n\texpoSleep = startSleep * (0.5**counter)\n\tcounter += 1\n";
+  fsPath = __dirname + '/flora-neopixel.py';
+  fsData = "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)\nr="
+      + rgbColor[0] + "\ng="
+      + rgbColor[1] + "\nb="
+      + rgbColor[2] + "\nser.write('r,g,b')";
 
   fs.writeFile(fsPath, fsData, function(error) {
        if (error) {
@@ -45,7 +33,6 @@ function updateUnicorn (hex) {
   });
 
   Python.execScript(fsPath, {
-                  // bin: "python3",
                   args: [ "argument" ]
   }).then(function(data){
           console.log(data);
