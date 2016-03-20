@@ -49,10 +49,7 @@ function updateUnicorn(hex) {
     [
       "import serial",
       "ser = serial.Serial('/dev/ttyACM1', 9600)",
-      "r = rVal",
-      "g = gVal",
-      "b = bVal",
-      "ser.write('r,g,b')"
+      "ser.write('rVal,gVal,bVal')"
     ],
     {
       "rVal" : rgbColor[0],
