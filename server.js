@@ -41,7 +41,7 @@ function updateUnicorn(hex) {
   //     + rgbColor[2] + "\nser.write('r,g,b')";
 
   Python.exec(
-    "r=" + rgbColor[0] + "\ng=" + rgbColor[1] + "\nb=" + rgbColor[2] + "\nser.write('r,g,b')"
+    "import serial\nser = serial.Serial('/dev/ttyACM1', 9600)\nr=" + rgbColor[0] + "\ng=" + rgbColor[1] + "\nb=" + rgbColor[2] + "\nser.write('r,g,b')"
   )
   .then(function(data){
     console.log(data);
